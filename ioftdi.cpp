@@ -180,13 +180,6 @@ int IOFtdi::Init(struct cable_t *cable, const char *serial, unsigned int freq)
                                description, serial);
       if (res == 0)
       {
-          res = ftdi_set_bitmode(ftdi_handle, 0x00, BITMODE_RESET);
-          if(res < 0)
-          {
-              fprintf(stderr, "ftdi_set_bitmode: %s",
-                      ftdi_get_error_string(ftdi_handle));
-              goto ftdi_fail;
-          }
           res = ftdi_usb_purge_buffers(ftdi_handle);
           if(res < 0)
           {
@@ -671,15 +664,13 @@ void IOFtdi::deinit(void)
   /* Before shutdown, we must wait until everything is shifted out
      Do this by temporary enabling loopback mode, write something 
      and wait until we can read it back */
-  static unsigned char   tbuf[16] = { SET_BITS_LOW, 0xff, 0x00,
-                                      SET_BITS_HIGH, 0xff, 0x00,
-                                      LOOPBACK_START,
+  static unsigned char   tbuf[10] = { LOOPBACK_START,
 				      MPSSE_DO_READ|MPSSE_READ_NEG|
 				      MPSSE_DO_WRITE|MPSSE_WRITE_NEG|MPSSE_LSB, 
 				      0x04, 0x00,
 				      0xaa, 0x55, 0x00, 0xff, 0xaa, 
 				      LOOPBACK_END};
-  mpsse_add_cmd(tbuf, 16);
+  mpsse_add_cmd(tbuf, 10);
   read = readusb( tbuf,5);
   if  (read != 5) 
       fprintf(stderr,"Loopback failed, expect problems on later runs\n");
@@ -690,7 +681,6 @@ void IOFtdi::deinit(void)
   else
 #endif
   {
-      ftdi_set_bitmode(ftdi_handle, 0, BITMODE_RESET);
       ftdi_usb_reset(ftdi_handle);
       ftdi_usb_close(ftdi_handle);
       ftdi_deinit(ftdi_handle);
