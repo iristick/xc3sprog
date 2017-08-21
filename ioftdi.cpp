@@ -371,6 +371,7 @@ int IOFtdi::Init(struct cable_t *cable, const char *serial, unsigned int freq)
   
   mpsse_add_cmd(buf, 9);
   mpsse_send();
+  Usleep(200000);
   /* On H devices, use the non-divided clock*/
   if (device_has_fast_clock && ((freq == 0) ||(freq > 458)))
   {
