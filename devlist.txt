@@ -315,6 +315,9 @@
 #Analog Devices
 027c80cb      5 0x0002 ADSP-BF537
 
+# Cypress
+07926069      4    0x1 FX3
+
 #Unsure about IR_Len...
 0270817f     11  0x1 BCM2835
 
