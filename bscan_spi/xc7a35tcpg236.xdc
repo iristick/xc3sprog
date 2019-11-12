@@ -17,10 +17,10 @@ set_property -dict {LOC G18} [get_ports IO2]
 set_property -dict {LOC F18} [get_ports IO3]
 
 # AC701 LED 0
-# set_property -dict {LOC } [get_ports RLED] 
+# set_property -dict {LOC } [get_ports RLED]
 # AC701 LED 1
 # set_property -dict {LOC } [get_ports GLED]
 
 
-set_property BITSTREAM.CONFIG.UNUSEDPIN PULLNONE [current_design]
+set_property BITSTREAM.CONFIG.UNUSEDPIN PULLUP [current_design]
 set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
