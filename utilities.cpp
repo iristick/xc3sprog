@@ -100,18 +100,6 @@ int  getIO( std::auto_ptr<IOBase> *io, struct cable_t * cable, char const *dev,
       io->get()->setVerbose(verbose);
       res = io->get()->Init(cable, serial, use_freq);
   }
-  else if(cable->cabletype == CABLE_MATRIX_CREATOR)
-  {
-      io->reset(new IOMatrixCreator());
-      io->get()->setVerbose(verbose);
-      res = io->get()->Init(cable, serial, use_freq);
-  }
-  else if(cable->cabletype == CABLE_MATRIX_VOICE)
-  {
-      io->reset(new IOMatrixVoice());
-      io->get()->setVerbose(verbose);
-      res = io->get()->Init(cable, serial, use_freq);
-  }
   else
   {
       fprintf(stderr, "Unknown Cable \"%s\" \n", getCableName(cable->cabletype));
